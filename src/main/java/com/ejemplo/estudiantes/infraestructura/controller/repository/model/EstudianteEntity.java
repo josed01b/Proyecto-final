@@ -1,10 +1,16 @@
 package com.ejemplo.estudiantes.infraestructura.controller.repository.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 @Data
 @Entity(name = "estudiante")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EstudianteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
