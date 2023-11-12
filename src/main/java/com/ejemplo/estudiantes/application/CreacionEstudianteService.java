@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 public class CreacionEstudianteService {
 
     private final EstudianteRepository estudianteRepository;
+    private final EstudianteMapper estudianteMapper;
     public Estudiante crearEstudiante(Estudiante estudiante) {
-        EstudianteEntity entity = EstudianteMapper.INSTANCE.mapToEntity(estudiante);
+        EstudianteEntity entity = estudianteMapper.mapToEntity(estudiante);
 
                              //----metodo dos mas largo----//
 //                EstudianteEntity entity = EstudianteEntity.builder()
@@ -22,7 +23,7 @@ public class CreacionEstudianteService {
 //                         .build();
         EstudianteEntity estudianteResultante = estudianteRepository.save(entity);
 
-        return EstudianteMapper.INSTANCE.mapToDomain(estudianteResultante);
+        return estudianteMapper.mapToDomain(estudianteResultante);
 
                          //------return mas largo ------//
 //                Estudiante.builder()
