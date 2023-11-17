@@ -7,22 +7,25 @@ import com.ejemplo.estudiantes.infraestructura.controller.repository.model.Estud
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class ActualizacionEstudianteService {
 
-    private final EstudianteRepository estudianteRepository;
     private final EstudianteMapper estudianteMapper;
+    private final VerEstudianteService verEstudianteService;
+    private final EstudianteRepository estudianteRepository;
 
-    public Estudiante actualizarEstudiante(Long id, Estudiante estudiante) {
-        Optional<EstudianteEntity> estudianteEntity = estudianteRepository.findById(id);
-        EstudianteEntity entity = estudianteEntity.get();
-        entity.setId(estudiante.getId());
-        entity.setNombre(estudiante.getNombre());
-        entity.setApellido(estudiante.getApellido());
-        entity.setEdad(estudiante.getEdad());
-        return estudianteMapper.mapToDomain(entity);
+    public Estudiante actualizarEstudiante(long id, Estudiante estudiante ) {
+
+        Estudiante estudianteAnterior = verEstudianteService.consultarEstudiante(id);
+        EstudianteEntity estudianteEntity = estudianteMapper.mapToEntity(estudianteAnterior);
+
+        estudianteEntity.setNombre(estudiante.getNombre());
+        estudianteEntity.setApellido(estudiante.getApellido());
+        estudianteEntity.setEdad(estudiante.getEdad());
+
+        EstudianteEntity estudianteNuevo = estudianteRepository.save(estudianteEntity);
+
+        return estudianteMapper.mapToDomain(estudianteNuevo);
     }
 }
